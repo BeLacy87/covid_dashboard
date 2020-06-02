@@ -1,6 +1,6 @@
 var myMap = L.map("map", {
   center: [37.5407, -77.4360],
-  zoom: 13
+  zoom: 5
 });
 
  
@@ -13,51 +13,35 @@ id: 'mapbox/streets-v11',
 accessToken: 'pk.eyJ1IjoiYmVsYWN5ODciLCJhIjoiY2theDdxdmhsMDRkOTJ3cXRsZjNya2dqNyJ9.CbA_2MAMGvLUI-Sus96Qqw'
 }).addTo(myMap);
 
-
+var date = "5/1/20"
 var path = "confirmed_US.csv"
 
 d3.csv(path).then(function(data){
   console.log(data[0])
-  Object.entries(data[0]).forEach(([key,value])=>
-  console.log(key));
-
-
-// const CODE_PATTERN = /^([a-zA-Z]{1}-[0-9]{2}-[0-9]{2}[a-zA-Z]{0,1})$/;
-const CODE_PATTERN = /^([0-9]{1,2}.[0-9]{1,2}.[0-9]{2})$/;
-
-
-
-const validateCode = function(code) {
-  return CODE_PATTERN.test(code);
-};
-
-// Test sample of codes.
-const testCodes = [
-  '1/1/20',
-  '5/10/20',
-  'B-13-99',
-  'B-14-11A',
-  'B-13-100'
-];
-for (code of testCodes) {
-  const isValidCode = validateCode(code);
-  console.log(isValidCode);
-}
-
-
-
-
-
-
-
-
+  var dateArray=[];
+  Object.entries(data[0]).forEach(([key,value])=>{
+    const CODE_PATTERN = /^([0-9]{1,2}.[0-9]{1,2}.[0-9]{2})$/;
+    const validateCode = function(key) {
+    return CODE_PATTERN.test(key);
+    };
+    const isValidCode = validateCode(key);
+    if(isValidCode===true)
+    dateArray.push(key);
+    });
+  console.log(dateArray);
+  
   var heatArray = [];
-  for (var i = 0; i < data.length; i++) {
- 
-      heatArray.push([parseInt(data[i].Lat), parseInt(data[i].Long_)]);
+  for (var i = 0; i < data.length; i++) {  
     
-  }
-  console.log(heatArray);
+     
+       heatArray.push([parseInt(data[i].Lat), 
+                       parseInt(data[i].Long_), 
+                       parseInt(data[i][date])]);
+
+
+    }
+  console.log(heatArray)
+
   var heat = L.heatLayer(heatArray, {
     radius: 15,
     blur: 15
@@ -65,24 +49,3 @@ for (code of testCodes) {
   });
 
 
-
-// d3.json(url, function(response) {
-
-//   console.log(response);
-
-//   var heatArray = [];
-
-//   for (var i = 0; i < response.length; i++) {
-//     var location = response[i].location;
-
-//     if (location) {
-//       heatArray.push([location.coordinates[1], location.coordinates[0]]);
-//     }
-//   }
-
-//   var heat = L.heatLayer(heatArray, {
-//     radius: 20,
-//     blur: 35
-//   }).addTo(myMap);
-
-// });
