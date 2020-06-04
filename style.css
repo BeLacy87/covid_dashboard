@@ -8,3 +8,31 @@ body,
 html {
   height: 100%;
 }
+
+
+.tooltip {
+  border: 1px solid black;
+  padding: 8px;
+  background-color: white;
+}
+
+.track {
+  stroke-opacity: 0.3;
+  stroke-width: 8px;
+}
+
+.track-inset {
+  stroke: gray;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+}
+
+.ticks {
+  font-size: 10px;
+
+}                                                           
