@@ -40,6 +40,8 @@ function init (dataSet, currentDate){
   var svg = d3.select("#slider")
     .append("svg")
     .attr("width", chartWidth)
+
+
    //get dateArray and dateArrayIndicies
   d3.csv(dataSet).then(function(data) {   
       var counter = 0;
@@ -107,6 +109,8 @@ function init (dataSet, currentDate){
       })
   );
 
+
+
   slider.insert("g", ".track-overlay")
   .attr("class", "ticks")
   .selectAll("text")
@@ -134,6 +138,10 @@ function init (dataSet, currentDate){
     .text(currentDate)
     .attr("transform", "translate(0 , -15)");  
 
+  slider.append("text")
+  .attr("transform", `translate(${chartWidth / 2}, ${40})`)
+  .text("Days of pandemic");
+
     function update(index) {
       console.log(index)
       if (index < min ) 
@@ -146,63 +154,63 @@ function init (dataSet, currentDate){
       changeDate(index)
       };  
   })
-  function drawPlayButton(button) {
-    d3.select("#button").attr("class", "inactive");
+  // function drawPlayButton(button) {
+  //   d3.select("#button").attr("class", "inactive");
   
-    button.selectAll(".pause-parts").remove();
+  //   button.selectAll(".pause-parts").remove();
   
-    button.attr("fill", "green")
-        .attr("class", "inactive");
+  //   button.attr("fill", "green")
+  //       .attr("class", "inactive");
   
-    button.append("path")
-        .attr("d", "M10,8 L10,32 L32,20 Z")
-        .attr("fill", "white")
-        .attr("cursor", "pointer");
-  };
+  //   button.append("path")
+  //       .attr("d", "M10,8 L10,32 L32,20 Z")
+  //       .attr("fill", "white")
+  //       .attr("cursor", "pointer");
+  // };
   
   // Draw a pause button once we have "played" the slider movement
-  function drawPauseButton(button) {
-    d3.select("#button").attr("class", "active");
+  // function drawPauseButton(button) {
+  //   d3.select("#button").attr("class", "active");
   
-    button.select("path").remove();
+  //   button.select("path").remove();
   
-    button.attr("fill", "red")
-        .attr("class", "active");
+  //   button.attr("fill", "red")
+  //       .attr("class", "active");
   
-    button.append("rect")
-        .attr("class", "pause-parts")
-        .attr("x", 10)
-        .attr("y", 10)
-        .attr("width", 8)
-        .attr("height", 20)
-        .attr("fill", "white")
-        .attr("cursor", "pointer");
+  //   button.append("rect")
+  //       .attr("class", "pause-parts")
+  //       .attr("x", 10)
+  //       .attr("y", 10)
+  //       .attr("width", 8)
+  //       .attr("height", 20)
+  //       .attr("fill", "white")
+  //       .attr("cursor", "pointer");
   
-    button.append("rect")
-        .attr("class", "pause-parts")
-        .attr("x", 22)
-        .attr("y", 10)
-        .attr("width", 8)
-        .attr("height", 20)
-        .attr("fill", "white")
-        .attr("cursor", "pointer");
-  };
+  //   button.append("rect")
+  //       .attr("class", "pause-parts")
+  //       .attr("x", 22)
+  //       .attr("y", 10)
+  //       .attr("width", 8)
+  //       .attr("height", 20)
+  //       .attr("fill", "white")
+  //       .attr("cursor", "pointer");
+  // };
   
-  // Initialize shape for both the play and pause button
-  var button = svg.append("g")
-    .attr("id", "button-g")
-    .attr("transform", "translate(20, 10)");
+  // // Initialize shape for both the play and pause button
+  // var button = svg.append("g")
+  //   .attr("id", "button-g")
+  //   .attr("transform", "translate(20, 10)");
   
-  button.append("rect")
-    .attr("id", "button")
-    .attr("width", 40)
-    .attr("height", 40)
-    .attr("rx", 4)
-    .attr("stroke", "black")
-    .attr("cursor", "pointer");
+  // button.append("rect")
+  //   .attr("id", "button")
+  //   .attr("width", 40)
+  //   .attr("height", 40)
+  //   .attr("rx", 4)
+  //   .attr("stroke", "black")
+  //   .attr("cursor", "pointer");
   
   // Initialize the page to have the play button
-  drawPlayButton(button);
+  // drawPlayButton(button);
   
   
   
@@ -210,23 +218,23 @@ function init (dataSet, currentDate){
   
   
   // Click event on the button
-  button.on("click", function() {
-    var button = d3.select(this);
+  // button.on("click", function() {
+  //   var button = d3.select(this);
   
-    if (d3.select("#button").attr("class") == "inactive") {
-        drawPauseButton(button);
+  //   if (d3.select("#button").attr("class") == "inactive") {
+  //       drawPauseButton(button);
         
-        // Define the interval to recursively run a function
-        timer = setInterval(step, 50)
-    }
-    else {
-        drawPlayButton(button)
+  //       // Define the interval to recursively run a function
+  //       timer = setInterval(step, 50)
+  //   }
+  //   else {
+  //       drawPlayButton(button)
   
-        // Stop the currently running interval
-        clearInterval(timer);
-        ;
-    }
-  });
+  //       // Stop the currently running interval
+  //       clearInterval(timer);
+  //       ;
+  //   }
+  // });
 }
 
 function step() {
