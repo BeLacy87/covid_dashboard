@@ -8,21 +8,25 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js" integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q==" crossorigin=""></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
     <link rel="stylesheet" href="style.css" />
 
   </head>
 
   <body>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+      <img id="logo" src="logo.png">
+      <div class="nav_button ">
+      <a class="navbar-brand mt-0 mb-0 pl-2 pr-2 text-white" href="https://belacy87.github.io/" 
+      style="background-color: rgb(167, 125, 196); font-weight: bold; border-radius: 5px;" >Brent Lacy</a>
+      </div>  
+    </nav>
+    
     <div class="container" style=" height: 100%">
-      <div class="row" id = "mapRow" style="height: 80%; background-color: red;">
-        <div class = "col-md-9" id = "mapCol" style="background-color: green; height: 100% ">
-          <div id="map"></div>
-          <div id = "slider"></div>
-          <div id = "plot"></div>
-        </div>
-        <div class="col-md-3">
+      <div class="row" id = "mapRow" style="height: 80%; ">
+        <div class="col-md-3 mt-5">
           <div class = "well">
             <h5>Data set:</h5>
             <select id="selDataset" onchange="optionChanged(this.value)"></select>
@@ -30,6 +34,11 @@
             <select id="selDate" onchange="changeDate(this.value)"></select> -->
           </div>
         </div>
+        <div class = "col-md-9" id = "mapCol" style=" height: 100% ">
+          <div id="map"></div>
+          <div id = "slider"></div>
+          <div id = "plot"></div>
+        </div>     
       </div>
       
     </div>
