@@ -94,15 +94,15 @@ function init (dataSet, currentDate){
   .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
   .attr("class", "track-overlay")
   .call(d3.drag()
-      .on("start.interrupt", function() { slider.interrupt(); })
-      .on("start drag", function() {
-        
-        if (currentIndex !== Math.floor(dateScale.invert(d3.event.x))) {
-          console.log(currentIndex)
-          currentValue = d3.event.x;
-          currentIndex = Math.floor(dateScale.invert(currentValue));
-          update(currentIndex)
-          console.log(currentIndex)         
+      .on("start.interrupt", function() { 
+        slider.interrupt(); })
+      .on("start drag", function() {        
+        if (currentIndex !== Math.floor(dateScale.invert(d3.event.x))) 
+          {console.log(currentIndex);
+           currentValue = d3.event.x;
+           currentIndex = Math.floor(dateScale.invert(currentValue));
+           update(currentIndex)
+           console.log(currentIndex)         
           }
       })
   );
@@ -136,21 +136,110 @@ function init (dataSet, currentDate){
 
     function update(index) {
       console.log(index)
-      // Ensure the slider can't go past the valid range of values       
-      // var i=dateArray[index]    
       if (index < min ) 
         {index = min}
       else if (index > max) 
         {index = max};    
-      // Update position and text of label according to slider scale
       handle.attr("cx", dateScale(index));
       label.attr("x", dateScale(index))
           .text(dateArray[index]);    
-      // Now update the graph for that year
       changeDate(index)
       };  
   })
+  function drawPlayButton(button) {
+    d3.select("#button").attr("class", "inactive");
+  
+    button.selectAll(".pause-parts").remove();
+  
+    button.attr("fill", "green")
+        .attr("class", "inactive");
+  
+    button.append("path")
+        .attr("d", "M10,8 L10,32 L32,20 Z")
+        .attr("fill", "white")
+        .attr("cursor", "pointer");
+  };
+  
+  // Draw a pause button once we have "played" the slider movement
+  function drawPauseButton(button) {
+    d3.select("#button").attr("class", "active");
+  
+    button.select("path").remove();
+  
+    button.attr("fill", "red")
+        .attr("class", "active");
+  
+    button.append("rect")
+        .attr("class", "pause-parts")
+        .attr("x", 10)
+        .attr("y", 10)
+        .attr("width", 8)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .attr("cursor", "pointer");
+  
+    button.append("rect")
+        .attr("class", "pause-parts")
+        .attr("x", 22)
+        .attr("y", 10)
+        .attr("width", 8)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .attr("cursor", "pointer");
+  };
+  
+  // Initialize shape for both the play and pause button
+  var button = svg.append("g")
+    .attr("id", "button-g")
+    .attr("transform", "translate(20, 10)");
+  
+  button.append("rect")
+    .attr("id", "button")
+    .attr("width", 40)
+    .attr("height", 40)
+    .attr("rx", 4)
+    .attr("stroke", "black")
+    .attr("cursor", "pointer");
+  
+  // Initialize the page to have the play button
+  drawPlayButton(button);
+  
+  
+  
+  // This function will run only for the "play" button functionality
+  
+  
+  // Click event on the button
+  button.on("click", function() {
+    var button = d3.select(this);
+  
+    if (d3.select("#button").attr("class") == "inactive") {
+        drawPauseButton(button);
+        
+        // Define the interval to recursively run a function
+        timer = setInterval(step, 50)
+    }
+    else {
+        drawPlayButton(button)
+  
+        // Stop the currently running interval
+        clearInterval(timer);
+        ;
+    }
+  });
 }
+
+function step() {
+  update(currentIndex);
+
+  if (currentIndex >= d3.max(dateArrayIndices)) {
+      drawPlayButton(d3.select("#button-g"));
+      currentIndex = d3.min(dateArrayIndices);
+      clearInterval(timer);
+  };
+  
+  currentIndex = currentIndex + 1;
+};
 
 function drawPlot(path, currentDate) {
   console.log(path)
@@ -189,13 +278,12 @@ function changeDate (d){
 function optionChanged (d){
   var dataSets = {
     "confirmed cases in US" : confirmed_us,
-  "deaths in US" : deaths_us,
-  "confirmed cases global" : confirmed_global,
-  "global deaths" : deaths_global
-  }
+    "deaths in US" : deaths_us,
+    "confirmed cases global" : confirmed_global,
+    "global deaths" : deaths_global
+    }
   console.log(`option changed to ${d}`)
   dataSet=dataSets[d]
-
   drawPlot (dataSet, currentDate)
   return dataSet
 }
@@ -237,94 +325,3 @@ init(dataSet, currentDate);
 
 
 
-// function drawPlayButton(button) {
-//   d3.select("#button").attr("class", "inactive");
-
-//   button.selectAll(".pause-parts").remove();
-
-//   button.attr("fill", "green")
-//       .attr("class", "inactive");
-
-//   button.append("path")
-//       .attr("d", "M10,8 L10,32 L32,20 Z")
-//       .attr("fill", "white")
-//       .attr("cursor", "pointer");
-// };
-
-// // Draw a pause button once we have "played" the slider movement
-// function drawPauseButton(button) {
-//   d3.select("#button").attr("class", "active");
-
-//   button.select("path").remove();
-
-//   button.attr("fill", "red")
-//       .attr("class", "active");
-
-//   button.append("rect")
-//       .attr("class", "pause-parts")
-//       .attr("x", 10)
-//       .attr("y", 10)
-//       .attr("width", 8)
-//       .attr("height", 20)
-//       .attr("fill", "white")
-//       .attr("cursor", "pointer");
-
-//   button.append("rect")
-//       .attr("class", "pause-parts")
-//       .attr("x", 22)
-//       .attr("y", 10)
-//       .attr("width", 8)
-//       .attr("height", 20)
-//       .attr("fill", "white")
-//       .attr("cursor", "pointer");
-// };
-
-// // Initialize shape for both the play and pause button
-// var button = svg.append("g")
-//   .attr("id", "button-g")
-//   .attr("transform", "translate(20, 10)");
-
-// button.append("rect")
-//   .attr("id", "button")
-//   .attr("width", 40)
-//   .attr("height", 40)
-//   .attr("rx", 4)
-//   .attr("stroke", "black")
-//   .attr("cursor", "pointer");
-
-// // Initialize the page to have the play button
-// drawPlayButton(button);
-
-
-
-// // This function will run only for the "play" button functionality
-// function step() {
-//   update(currentIndex);
-
-//   if (currentIndex >= d3.max(dateArrayIndices)) {
-//       drawPlayButton(d3.select("#button-g"));
-//       currentIndex = d3.min(dateArrayIndices);
-//       clearInterval(timer);
-//   };
-  
-//   currentIndex = currentIndex + 1;
-// };
-
-// // Click event on the button
-// button.on("click", function() {
-//   var button = d3.select(this);
-
-//   if (d3.select("#button").attr("class") == "inactive") {
-//       drawPauseButton(button);
-      
-//       // Define the interval to recursively run a function
-//       timer = setInterval(step, 50)
-//   }
-//   else {
-//       drawPlayButton(button)
-
-//       // Stop the currently running interval
-//       clearInterval(timer);
-//       ;
-//   }
-// });
