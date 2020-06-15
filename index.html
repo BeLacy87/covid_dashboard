@@ -22,18 +22,45 @@
       <a class="navbar-brand mt-0 mb-0 pl-2 pr-2 text-white" href="https://belacy87.github.io/" 
       style="background-color: rgb(167, 125, 196); font-weight: bold; border-radius: 5px;" >Brent Lacy</a>
       </div>  
+      <ul class="nav navbar-nav navbar-right ml-5">
+        <li class="nav-item ">
+            <a class="nav-link" href="Lacy_DA_resume_6.10.pdf" target="_blank">Resume <span class="sr-only">(current)</span></a>
+        </li>          
+        <li class="nav-item ">
+          <a class="nav-link" href="mailto:belacy87@gmail.com?Subject=Nice%20webpage!">Email <span class="sr-only">(current)</span></a>
+        </li>  
+        <li class="nav-item ">
+         <a class="nav-link" href="http://www.github.com/belacy87" target="_blank">Github <span class="sr-only">(current)</span></a>
+        </li>  
+        <li class="nav-item ">
+         <a class="nav-link" href="https://www.linkedin.com/in/belacy87/" target="_blank">LinkedIn<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
     </nav>
+
+    
     
     <div class="container" style=" height: 100%">
       <div class="row" id = "mapRow" style="height: 80%; ">
         <div class="col-md-3 mt-5">
-          <div class = "well">
-            <h5>Data set:</h5>
+        <div class="card">
+          <div class="card-header">
+            How has covid-19 spread?
+          </div>
+          <div class="card-body">           
+            <p class="card-text">select data</p>
             <select id="selDataset" onchange="optionChanged(this.value)"></select>
-            <!-- <h5>Date:</h5>
-            <select id="selDate" onchange="changeDate(this.value)"></select> -->
+            <ul>
+              <li class="text-left h6 mt-3 "><em>Select date across slider</em></li>
+              <li class="text-left h6 "><em>Chart generated using d3</em></li>
+              <li class="text-left h6 "><em>Data pulled from</em> 
+                <a href="https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series">Johns Hopkins Github</a></li>          
+              
+              </ul>
           </div>
         </div>
+      </div>      
+        
         <div class = "col-md-9" id = "mapCol" style=" height: 100% ">
           <div id="map"></div>
           <div id = "slider"></div>
